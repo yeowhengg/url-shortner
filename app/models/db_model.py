@@ -12,5 +12,6 @@ class URLPublic(URLShortenerBase):
     url_unshortened: str
     url_shortened: str
 
+
 class URLShortenerCreate(URLShortenerBase):
     url_unshortened: str

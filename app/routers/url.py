@@ -15,17 +15,17 @@ def test_route():
     return "Hello world!"
 
 @router.get("/allurl")
-def retrieve_url(session: SessionDep) -> list[URLShortenerBase]:
-    url = session.exec(select(URLShortenerBase)).all()
+def retrieve_url(session: SessionDep) -> list[URLShortener]:
+    url = session.exec(select(URLShortener)).all()
     return url
 
-@router.post("/shortener/", response_model=URLPublic, response_model_exclude={"id"})
+@router.post("/shortener/")
 def url_shortener(session: SessionDep, url: URLShortenerCreate):
     db_url = URLShortener.model_validate(url)
     new_url = generate_link.to_shorten(url.url_unshortened)
+    db_url.url_shortened = new_url
     session.add(db_url)
     session.commit()
     session.refresh(db_url)
     return {"url_unshortened": url.url_unshortened,
     "url_shortened": new_url}
-    
