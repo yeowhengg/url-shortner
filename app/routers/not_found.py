@@ -5,7 +5,7 @@ from helper import check_link
 
 SessionDep = db_session.SessionDep
 
-router = APIRouter(prefix="/notfound")
+router = APIRouter(prefix="/notfound", tags=["route_not_found"])
 
 
 @router.get("/")

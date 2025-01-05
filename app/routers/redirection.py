@@ -11,7 +11,7 @@ DOMAIN_NAME = os.getenv("DOMAIN_NAME")
 
 SessionDep = db_session.SessionDep
 
-router = APIRouter()
+router = APIRouter(tags=["redirection"])
 
 
 @router.get("/{}")

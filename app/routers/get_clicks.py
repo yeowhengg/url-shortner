@@ -5,7 +5,7 @@ from helper import get_data
 
 SessionDep = db_session.SessionDep
 
-router = APIRouter(prefix="/data")
+router = APIRouter(prefix="/data", tags=["data"])
 
 
 @router.get("/")
