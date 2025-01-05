@@ -2,3 +2,4 @@ starlette
 pydantic
 fastapi[standard]
 sqlmodel
+python-dotenv
