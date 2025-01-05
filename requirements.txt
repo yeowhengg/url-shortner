@@ -3,3 +3,4 @@ pydantic
 fastapi[standard]
 sqlmodel
 python-dotenv
+uvicorn[standard]
