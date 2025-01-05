@@ -6,22 +6,24 @@ from helper import generate_link, valid_url
 
 SessionDep = db_session.SessionDep
 
-router = APIRouter (
+router = APIRouter(
     prefix="/url",
 )
+
 
 @router.get("/")
 def test_route():
     return "Hello world!"
+
 
 @router.get("/allurl")
 def retrieve_url(session: SessionDep) -> list[URLShortener]:
     url = session.exec(select(URLShortener)).all()
     return url
 
-@router.post("/shortener/", responses={
-    "200": {"model": URLPublic},
-    "400": {"model": InvalidURL}}
+
+@router.post(
+    "/shortener/", responses={"200": {"model": URLPublic}, "400": {"model": InvalidURL}}
 )
 def url_shortener(session: SessionDep, url: URLShortenerCreate):
     db_url = URLShortener.model_validate(url)
@@ -29,10 +31,9 @@ def url_shortener(session: SessionDep, url: URLShortenerCreate):
 
     if check_valid_url:
         row = len(session.exec(select(URLShortener))._allrows()) + 1
-        
+
         new_url = generate_link.to_shorten(url.url_unshortened, session, db_url, row)
-    
-        return {"url_unshortened": url.url_unshortened,
-        "url_shortened": new_url}
-    
-    raise HTTPException(status_code=400, detail= "url is not valid")
+
+        return {"url_unshortened": url.url_unshortened, "url_shortened": new_url}
+
+    raise HTTPException(status_code=400, detail="url is not valid")

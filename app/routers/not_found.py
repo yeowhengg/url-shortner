@@ -5,7 +5,8 @@ from helper import check_link
 
 SessionDep = db_session.SessionDep
 
-router = APIRouter (prefix="/notfound")
+router = APIRouter(prefix="/notfound")
+
 
 @router.get("/")
 def redirect_route():
