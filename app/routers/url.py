@@ -6,9 +6,7 @@ from helper import generate_link, valid_url
 
 SessionDep = db_session.SessionDep
 
-router = APIRouter(
-    prefix="/url", tags=["url_tools"]
-)
+router = APIRouter(prefix="/url", tags=["url_tools"])
 
 
 @router.get("/")

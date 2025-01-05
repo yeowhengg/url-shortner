@@ -14,22 +14,10 @@ async def lifespan(app: FastAPI):
 
 
 tag_metadata = [
-    {
-        "name": "data",
-        "description": "get your data endpoint"
-    },
-    {
-        "name": "route_not_found",
-        "description": "shortened route doesnt exist"
-    },
-    {
-        "name": "redirection",
-        "description": "redirection shorten link to original link"
-    },
-    {
-        "name": "url_tools",
-        "description": "main functionality of the urls"
-    }
+    {"name": "data", "description": "get your data endpoint"},
+    {"name": "route_not_found", "description": "shortened route doesnt exist"},
+    {"name": "redirection", "description": "redirection shorten link to original link"},
+    {"name": "url_tools", "description": "main functionality of the urls"},
 ]
 app = FastAPI(lifespan=lifespan)
 
