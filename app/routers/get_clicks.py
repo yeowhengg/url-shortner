@@ -9,7 +9,7 @@ router = APIRouter(prefix="/data")
 
 
 @router.get("/")
-def redirect_route():
+def clicks_root():
     return "endpoint is to fetch clicks"
 
 

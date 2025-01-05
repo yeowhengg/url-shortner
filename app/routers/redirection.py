@@ -14,7 +14,9 @@ SessionDep = db_session.SessionDep
 router = APIRouter()
 
 
-@router.get("/{shortcode}")
+@router.get("/{}")
 def redirect_route(shortcode: str, session: SessionDep):
     redirect_link = check_link.get_link(f"{DOMAIN_NAME}" + shortcode, session)
+
+    print(shortcode)
     return RedirectResponse(url=redirect_link)
