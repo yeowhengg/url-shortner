@@ -1,7 +1,7 @@
 from fastapi import FastAPI, Query, HTTPException
 from contextlib import asynccontextmanager
-from .database import db_session
-from .routers import url, redirection, not_found
+from database import db_session
+from routers import url, redirection, not_found
 
 
 SessionDep = db_session.SessionDep

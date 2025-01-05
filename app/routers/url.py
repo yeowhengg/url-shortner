@@ -1,8 +1,8 @@
 from fastapi import APIRouter, HTTPException
 from sqlmodel import select
-from ..models.db_model import URLPublic, URLShortenerCreate, URLShortener, InvalidURL
-from ..database import db_session
-from ..helper import generate_link, valid_url
+from models.db_model import URLPublic, URLShortenerCreate, URLShortener, InvalidURL
+from database import db_session
+from helper import generate_link, valid_url
 
 SessionDep = db_session.SessionDep
 
