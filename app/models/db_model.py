@@ -1,4 +1,5 @@
 from sqlmodel import Field, SQLModel
+from pydantic import BaseModel
 
 class URLShortenerBase(SQLModel):
     id: int | None = Field(default=None, primary_key=True)
@@ -6,12 +7,14 @@ class URLShortenerBase(SQLModel):
 
 class URLShortener(URLShortenerBase, table=True):
     url_unshortened: str | None = Field(index=True)
-    time_visited: int | None = Field(default=None, index=False)
+    time_visited: int | None = Field(default=0, index=False)
     
-class URLPublic(URLShortenerBase):
+class URLPublic(BaseModel):
     url_unshortened: str
     url_shortened: str
 
-
-class URLShortenerCreate(URLShortenerBase):
+class URLShortenerCreate(BaseModel):
     url_unshortened: str
+
+class InvalidURL(BaseModel):
+    error: str

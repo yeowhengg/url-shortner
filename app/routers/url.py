@@ -1,8 +1,8 @@
-from fastapi import APIRouter
+from fastapi import APIRouter, HTTPException
 from sqlmodel import select
-from ..models.db_model import URLPublic, URLShortenerBase, URLShortenerCreate, URLShortener
+from ..models.db_model import URLPublic, URLShortenerCreate, URLShortener, InvalidURL
 from ..database import db_session
-from ..helper import generate_link
+from ..helper import generate_link, valid_url
 
 SessionDep = db_session.SessionDep
 
@@ -19,13 +19,20 @@ def retrieve_url(session: SessionDep) -> list[URLShortener]:
     url = session.exec(select(URLShortener)).all()
     return url
 
-@router.post("/shortener/")
+@router.post("/shortener/", responses={
+    "200": {"model": URLPublic},
+    "400": {"model": InvalidURL}}
+)
 def url_shortener(session: SessionDep, url: URLShortenerCreate):
     db_url = URLShortener.model_validate(url)
-    new_url = generate_link.to_shorten(url.url_unshortened)
-    db_url.url_shortened = new_url
-    session.add(db_url)
-    session.commit()
-    session.refresh(db_url)
-    return {"url_unshortened": url.url_unshortened,
-    "url_shortened": new_url}
+    check_valid_url = valid_url.check_valid(db_url)
+
+    if check_valid_url:
+        row = len(session.exec(select(URLShortener))._allrows()) + 1
+        
+        new_url = generate_link.to_shorten(url.url_unshortened, session, db_url, row)
+    
+        return {"url_unshortened": url.url_unshortened,
+        "url_shortened": new_url}
+    
+    raise HTTPException(status_code=400, detail= "url is not valid")
